@@ -3,116 +3,465 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demande de Suppression des Données - ANSAR</title>
+    <title>DEMANDE DE SUPPRESSION DES DONNÉES - ANSAR</title>
     <style>
+        :root {
+            --primary-color: #073332;
+            --secondary-color: #1f4a49;
+            --accent-color: #9b9c28;
+            --danger-color: #ff003c;
+            --bg-color: #073332;
+            --text-color: #ffffff;
+            --glow-color: #00ff9d;
+            --neon-shadow: 0 0 10px var(--glow-color), 
+                          0 0 20px var(--glow-color),
+                          0 0 30px var(--glow-color);
+        }
+
+        @font-face {
+            font-family: 'Cyber';
+            src: url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+        }
+
         body {
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Orbitron', 'Cyber', sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-            color: #fff;
             overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(9, 255, 0, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 0, 60, 0.05) 0%, transparent 20%),
+                linear-gradient(to bottom, #000000, var(--primary-color));
         }
+
         header {
-            background: rgba(0, 128, 0, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 10px;
+            background: rgba(7, 51, 50, 0.7);
+            backdrop-filter: blur(12px) saturate(180%);
+            padding: 1rem;
             text-align: center;
             position: sticky;
             top: 0;
-            z-index: 10;
+            z-index: 100;
+            border-bottom: 1px solid var(--accent-color);
+            box-shadow: var(--neon-shadow);
         }
+
         h1 {
             margin: 0;
-            font-size: 2.5em;
-            animation: glow 2s ease-in-out infinite alternate;
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3rem;
+            color: var(--danger-color);
+            text-shadow: 0 0 5px #ff003c, 
+                         0 0 10px #ff003c,
+                         0 0 15px #ff003c;
+            animation: flicker 1.5s infinite alternate;
         }
-        section {
-            max-width: 700px;
-            margin: 20px auto;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            backdrop-filter: blur(15px);
-            box-shadow: 0 8px 32px rgba(0, 128, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            animation: slideIn 1s ease-out;
+
+        .terminal {
+            max-width: 800px;
+            margin: 2rem auto;
+            background: rgba(15, 30, 30, 0.7);
+            border-radius: 0;
+            border: 2px solid var(--accent-color);
+            box-shadow: 0 0 20px rgba(0, 255, 157, 0.3),
+                        inset 0 0 20px rgba(0, 255, 157, 0.1);
+            overflow: hidden;
+            position: relative;
         }
-        p, ul {
-            font-size: 1.1em;
-            line-height: 1.6;
+
+        .terminal-header {
+            background: linear-gradient(to right, #073332, #1f4a49);
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--danger-color);
         }
+
+        .terminal-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+
+        .terminal-btn.red {
+            background: var(--danger-color);
+            box-shadow: 0 0 5px var(--danger-color);
+        }
+
+        .terminal-btn.yellow {
+            background: var(--accent-color);
+            box-shadow: 0 0 5px var(--accent-color);
+        }
+
+        .terminal-btn.green {
+            background: var(--glow-color);
+            box-shadow: 0 0 5px var(--glow-color);
+        }
+
+        .terminal-body {
+            padding: 1.5rem;
+            font-family: 'Courier New', monospace;
+            position: relative;
+        }
+
+        .typewriter {
+            overflow: hidden;
+            border-right: 3px solid var(--glow-color);
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: 0.15em;
+            animation: 
+                typing 3.5s steps(40, end),
+                blink-caret 0.75s step-end infinite;
+        }
+
+        .warning {
+            background: rgba(255, 0, 60, 0.2);
+            border-left: 4px solid var(--danger-color);
+            padding: 1rem;
+            margin: 1rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .warning::before {
+            content: "⚠";
+            position: absolute;
+            top: 0;
+            right: 0;
+            font-size: 4rem;
+            opacity: 0.1;
+            line-height: 1;
+        }
+
+        .command {
+            color: var(--glow-color);
+            font-weight: bold;
+        }
+
+        .danger {
+            color: var(--danger-color);
+            text-shadow: 0 0 5px rgba(255, 0, 60, 0.5);
+        }
+
         ul {
             list-style-type: none;
             padding: 0;
+            margin: 1.5rem 0;
         }
+
         li {
-            margin: 10px 0;
-            padding: 10px;
-            background: rgba(0, 128, 0, 0.2);
-            border-radius: 8px;
-            transition: transform 0.3s ease, background 0.3s ease;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: rgba(31, 74, 73, 0.3);
+            border-left: 3px solid var(--accent-color);
+            position: relative;
+            transition: all 0.3s ease;
+            counter-increment: step-counter;
         }
+
+        li::before {
+            content: "[" counter(step-counter) "]";
+            position: absolute;
+            left: -2rem;
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
         li:hover {
-            transform: translateX(10px);
-            background: rgba(0, 128, 0, 0.4);
+            background: rgba(255, 0, 60, 0.2);
+            border-left: 3px solid var(--danger-color);
+            transform: translateX(5px);
         }
+
         a {
-            color: #00ff00;
+            color: var(--glow-color);
             text-decoration: none;
-            transition: color 0.3s ease;
+            position: relative;
         }
-        a:hover {
-            color: #ccff00;
+
+        a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            bottom: -2px;
+            left: 0;
+            background: var(--glow-color);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
         }
-        @keyframes glow {
-            from { text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00; }
-            to { text-shadow: 0 0 20px #00ff00, 0 0 30px #00ff00; }
+
+        a:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
         }
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(50px); }
-            to { opacity: 1; transform: translateY(0); }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            margin: 1rem 0;
+            background: rgba(255, 0, 60, 0.2);
+            color: var(--danger-color);
+            border: 1px solid var(--danger-color);
+            text-transform: uppercase;
+            letter-spacing: 0.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
-        .futuristic-bg {
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 0, 60, 0.4), transparent);
+            transition: 0.5s;
+        }
+
+        .btn:hover {
+            background: rgba(255, 0, 60, 0.4);
+            box-shadow: 0 0 10px var(--danger-color);
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                rgba(0, 255, 157, 0.05) 50%,
+                transparent 50%
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 1000;
+            animation: scanline 8s linear infinite;
+        }
+
+        .glitch {
+            position: relative;
+        }
+
+        .glitch::before, .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.8;
+        }
+
+        .glitch::before {
+            color: #0ff;
+            z-index: -1;
+            animation: glitch-effect 3s infinite;
+        }
+
+        .glitch::after {
+            color: #f0f;
+            z-index: -2;
+            animation: glitch-effect 2s infinite reverse;
+        }
+
+        @keyframes flicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+                text-shadow: 
+                    0 0 5px var(--danger-color),
+                    0 0 10px var(--danger-color),
+                    0 0 15px var(--danger-color);
+            }
+            20%, 24%, 55% {
+                text-shadow: none;
+            }
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--glow-color) }
+        }
+
+        @keyframes scanline {
+            0% {
+                transform: translateY(-100%);
+            }
+            100% {
+                transform: translateY(100%);
+            }
+        }
+
+        @keyframes glitch-effect {
+            0% {
+                transform: translate(0);
+            }
+            20% {
+                transform: translate(-3px, 3px);
+            }
+            40% {
+                transform: translate(-3px, -3px);
+            }
+            60% {
+                transform: translate(3px, 3px);
+            }
+            80% {
+                transform: translate(3px, -3px);
+            }
+            100% {
+                transform: translate(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.6;
+            }
+            50% {
+                opacity: 0.2;
+            }
+        }
+
+        .matrix-rain {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: -1;
-            background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"%3E%3Ccircle cx="50" cy="50" r="20" fill="rgba(0,255,0,0.1)"%3E%3Canimate attributeName="r" values="20;30;20" dur="4s" repeatCount="indefinite"/%3E%3C/circle%3E%3C/svg%3E');
-            animation: pulse 10s infinite ease-in-out;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.6; }
+            opacity: 0.1;
+            pointer-events: none;
         }
     </style>
 </head>
 <body>
-    <div class="futuristic-bg"></div>
+    <div class="matrix-rain" id="matrixRain"></div>
+    <div class="scanlines"></div>
+
     <header>
-        <h1>Demande de Suppression des Données - ANSAR</h1>
+        <h1 class="glitch" data-text="SUPPRESSION DE DONNÉES - ANSAR">SUPPRESSION DE DONNÉES - ANSAR</h1>
     </header>
-    <section>
-              <p>D'après l'article 4 du Politique de Confidentialité :</p>
-            <li>
-Les membres de l'association ont le droit :
 
-<p>De consulter les données les concernant
-<p>De demander la rectification des informations inexactes
-<p>De demander la suppression de leurs données dans les limites permises par le règlement interne avec une validation du président (Mouhamed Salem Niang)</li>
+    <div class="terminal">
+        <div class="terminal-header">
+            <div class="terminal-btn red"></div>
+            <div class="terminal-btn yellow"></div>
+            <div class="terminal-btn green"></div>
+        </div>
+        <div class="terminal-body">
+            <div class="typewriter">
+                <span class="command">>> ACCÈS AUTORISÉ: </span>
+            </div>
 
-        <p>Pour cela :</p>
-        <ul>
-            <li>Envoyez un email à <a href="mailto:ansarmouyassar@gmail.com">ansarmouyassar@gmail.com</a> avec votre demande précise.</li>
-            <li>Ou appelez le numéro <a href="tel:+221783090278">+221 78 309 02 78</a>.</li>
-            <li>Votre demande sera examinée par le président de l’association (M. Niang).</li>
-            <li>Une fois validée, vos données seront supprimées conformément au règlement interne.</li>
-          <li>Certaines données peuvent être conservées temporairement pour des raisons administratives légales.</li>
-            <li>Nous nous engageons à traiter votre demande dans un délai raisonnable après validation.</li>
-        </ul>
-        <p>Si possible, approchez vous vous des membres du Bureau. Responsable de la suppression des données : Cheikh Ibrahima Maiche Niass</p>
-    </section>
+            <div class="warning">
+                <span class="danger">ATTENTION:</span> Cette action est irréversible. Toutes les données supprimées seront perdues définitivement.
+            </div>
+
+            <p>D'après l'article 4 du Politique de Confidentialité :</p>
+            
+            <ul>
+                <li>
+                    Les membres de l'association ont le droit :
+                    <p>• De consulter les données les concernant</p>
+                    <p>• De demander la rectification des informations inexactes</p>
+                    <p>• De demander la suppression de leurs données dans les limites permises par le règlement interne avec une validation du président (Mouhamed Salem Niang)</p>
+                </li>
+            </ul>
+
+            <p><span class="command">>> PROCÉDURE:</span> Pour initier la suppression de vos données :</p>
+            
+            <ul>
+                <li>Envoyez un email à <a href="mailto:ansarmouyassar@gmail.com">ansarmouyassar@gmail.com</a> avec comme sujet <span class="command">[URGENT] DEMANDE DE SUPPRESSION</span></li>
+                <li>Ou appelez le numéro <a href="tel:+221783090278">+221 78 309 02 78</a> (disponibilité limitée)</li>
+                <li>Votre demande sera examinée par le président de l'association (M. Niang)</li>
+                <li>Une fois validée, vos données seront supprimées conformément au règlement interne</li>
+                <li class="danger">Certaines données peuvent être conservées temporairement pour des raisons administratives légales</li>
+                <li>Délai de traitement: 7-30 jours après validation</li>
+            </ul>
+
+            <p><span class="command">>> NOTE:</span> Si possible, approchez-vous directement des membres du Bureau. Responsable de la suppression des données : Cheikh Ibrahima Maiche Niass</p>
+
+            <a href="mailto:ansarmouyassar@gmail.com" class="btn">INITIER LA SUPPRESSION</a>
+        </div>
+    </div>
+
+    <script>
+         const matrixRain = document.getElementById('matrixRain');
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        matrixRain.appendChild(canvas);
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
+        const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const nums = '0123456789';
+        const alphabet = katakana + latin + nums;
+
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        const rainDrops = [];
+
+        for (let x = 0; x < columns; x++) {
+            rainDrops[x] = 1;
+        }
+
+        const draw = () => {
+            ctx.fillStyle = 'rgba(7, 51, 50, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#00ff9d';
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < rainDrops.length; i++) {
+                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+                
+                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    rainDrops[i] = 0;
+                }
+                rainDrops[i]++;
+            }
+        };
+
+        setInterval(draw, 30);
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Glitch effect on hover
+        const glitchElements = document.querySelectorAll('.glitch');
+        glitchElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                el.style.animation = 'glitch-effect 0.5s infinite';
+            });
+            el.addEventListener('mouseleave', () => {
+                el.style.animation = '';
+            });
+        });
+    </script>
 </body>
-</html>
+</html> 
